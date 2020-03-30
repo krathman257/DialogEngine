@@ -1,4 +1,3 @@
-from Concept import Concept
 from Proposal import Proposal
 from RuleNode import RuleNode
 
@@ -21,9 +20,6 @@ class DialogMachine:
                     self.rules[p].addSubRule(rn)
                     break
         self.rules.append(rn)
-
-    def addConcept(self, c):
-        self.concepts.append(c)
 
     #When building machine, call before any
     #addRules if proposal is present
@@ -50,7 +46,7 @@ class DialogMachine:
         if self.proposal == True:
             currentRule.speak()
         while not stop:
-            humanIn = input().lower()
+            humanIn = input()
             nextRule = currentRule.getNext(humanIn)
 
             if not nextRule == "REPEAT":

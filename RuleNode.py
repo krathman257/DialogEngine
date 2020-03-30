@@ -19,9 +19,10 @@ class RuleNode:
         chosen = self.speechOut[random.randint(0,len(self.speechOut)-1)]
         print(chosen)
 
+    #Bool, checks if input is a string in speechIn
     def checkInput(self, input):
         for i in range(0, len(self.speechIn)):
-            if self.speechIn[i] == input:
+            if self.speechIn[i].lower() == input.lower():
                 return True
         return False
 
