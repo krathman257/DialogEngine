@@ -2,6 +2,9 @@
 # kblack 4/3/2020
 
 import re
+import nltk
+#nltk.download("punkt") #this only needs to be run once!
+#from nltk.tokenize import word_tokenize
 
 class Reader:
     def __init__(self):
@@ -13,6 +16,73 @@ class Reader:
         path = self.wd + filename #path to FILE
         file = open(path, "r")
         return file
+    
+    
+    def parse_options(self, opts):
+        opt_list = []
+        opts = opts.replace("[", "", 1)
+        opts = opts.replace("]", "", 1)
+        opts = opts.replace("(", "", 1)
+        opts = opts.replace(")", "", 1)
+        opt_prelist = opts.split()
+
+        tmp = ""
+        flag = False
+        for chunk in opt_prelist:
+            if chunk.startswith("\""): #starts with quote = multiword
+                flag = True #raise flag if its a multiword
+                tmp = chunk.strip("\"") #strip quote
+                continue
+            if flag: #still a multiword               
+                tmp = tmp + " " + chunk.strip("\"") #add the sentence chunk
+                if chunk.endswith("\""): 
+                    #reached end of multiword
+                    flag = False
+                    chunk = tmp #chunk collects the assembled word 
+                    tmp = "" #tmp is reset
+                else: continue
+            opt_list.append(chunk)
+
+
+
+        return opt_list
+
+    def tknize(self, line):
+        #from krathman:
+        #first character = u (rule) -> [[list of string inputs], [list of string outputs], level]
+        #first character = & (proposal) -> "thing to say"
+        #first character = ~ (concept declaration) -> [concept name, [list of string definitions]]
+
+        dia = re.split(":", line, 1) #splits line at first colon
+        dia = tuple(dia)
+        corp = []
+        cmd = dia[0]
+        cmd = cmd.strip()
+        flag = False
+        if cmd.startswith("u"): #rules require user input
+            rule = re.split(":", dia[1], 1)
+            trig = self.parse_options(rule[0])
+            resp = self.parse_options(rule[1])
+            uid = cmd.strip("u")
+            if uid.isnumeric():
+                return (trig, resp, int(uid))
+            else:
+                return (trig, resp, 0)
+        elif cmd.startswith("&"): #proposal\
+            if flag:
+                print("No more than one proposal!")
+                return (None)
+            flag = True
+            print("Proposal found")
+            prop = self.parse_options(dia[1])
+
+            
+        elif cmd.startswith("~"): #concept
+            concept = cmd.strip("~") #get the concept name
+            defs = self.parse_options(dia[1])
+            return (concept, defs)
+    
+
 
     def parse_lines(self, fname):
         if fname is "":
@@ -38,11 +108,14 @@ class Reader:
 
         
         #so now we can assume that lines list only has relevant (non-commented, non-blank) lines in it
-
-        print(lines)
-        return
-
+        log = []
+        for line in lines:
+            dia = self.tknize(line)
+            #todo: something with the dialog
+            log.append(dia)
+        
+        print(log)
+        return log
+        
 read = Reader()
-read.parse_lines("")
-
-
+read.parse_lines("test.txt")
