@@ -155,6 +155,6 @@ class Reader:
 
 
 read = Reader()
-read.parse_lines("test.txt")
+read.parse_lines("script.txt")
 #print(read.cons)
 read.dm.run()

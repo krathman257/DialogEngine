@@ -1,3 +1,5 @@
+#krathman
+
 from Proposal import Proposal
 from RuleNode import RuleNode
 
@@ -51,6 +53,4 @@ class DialogMachine:
 
             if not nextRule == "REPEAT":
                 currentRule = nextRule
-            if currentRule is None or len(currentRule.subRules) == 0:
-                stop = True
         print("\nENDING SCRIPT...")

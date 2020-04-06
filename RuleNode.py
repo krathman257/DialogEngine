@@ -28,8 +28,6 @@ class RuleNode:
 
     #Tries to get next rule given input
     def getNext(self, humanIn):
-        if len(self.subRules) == 0:
-            return None
         for r in range(0, len(self.subRules)):
             if self.subRules[r].checkInput(humanIn):
                 self.subRules[r].speak()
@@ -41,7 +39,7 @@ class RuleNode:
             return self.parentRule.getNext(humanIn)
 
     def toString(self):
-        return "RuleNode: "+str(self.level)+") "+self.speechIn+", "+self.speechOut
+        return "RuleNode: "+str(self.level)+") "+str(self.speechIn)+", "+str(self.speechOut)
 
     def printSubRules(self):
         print("SUBRULES OF " + self.toString())
