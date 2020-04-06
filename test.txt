@@ -1,7 +1,7 @@
 #Comment ignore this line
-#&p : Have you seen a dog around?
-#	u1:(yes) A black dog
-#	u1: (no) Thanks anyway
+#&p: Have you seen a dog around?
+#	u:(yes): A black dog
+#	u: (no): Thanks anyway
 #lists of pieces of dialog
 ~greetings: [hello howdy "hi there"]
 ~responses: [no "of course" "I don't have a nose"]
@@ -12,7 +12,7 @@ u:(~greetings) : You said a greeting
 u: (How are you) : Good, thanks for asking
 u: (What is your name) : My name is Tangobot
 u: (Do you have any pets): No, do you have any pets?
-	u1: ( Yes): what kind
+	u1: (Yes): what kind
 		u2: (dog): I love dogs
 			u3:(so): that was rude
 				u4:(~greetings): Now you want to be nice
@@ -24,4 +24,4 @@ u: (Do you have any pets): No, do you have any pets?
 			u3:(really):~responses
 	u1: ([nope no wrong]): You will die young
 #u: (how old are you): I am 2 years old
-u: (yes): We should not be finding this one 
+u: (yes): We should not be finding this one

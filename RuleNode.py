@@ -22,7 +22,7 @@ class RuleNode:
     #Bool, checks if input is a string in speechIn
     def checkInput(self, input):
         for i in range(0, len(self.speechIn)):
-            if self.speechIn[i].lower() == input.lower():
+            if self.speechIn[i].lower() in input.lower():
                 return True
         return False
 
