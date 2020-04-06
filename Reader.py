@@ -2,9 +2,7 @@
 # kblack 4/3/2020
 
 import re
-import nltk
-#nltk.download("punkt") #this only needs to be run once!
-#from nltk.tokenize import word_tokenize
+
 
 class Reader:
     def __init__(self):
@@ -60,20 +58,32 @@ class Reader:
         cmd = dia[0]
         cmd = cmd.strip()
         flag = False
+        
         if cmd.startswith("u"): #rules require user input
             rule = re.split(":", dia[1], 1)
-            trig = self.parse_options(rule[0])
-            resp = self.parse_options(rule[1])
-            if len(trig) ==1:
-                if trig[0].startswith("~"):
+            #rule0 = tirgger/input
+            #rule1 = resp/output
+            #ensure that lists are parsed as lists
+            if rule[0].strip().startswith("(["):
+                trig = self.parse_options(rule[0])
+            else: 
+                trig = rule[0].strip()
+                trig = trig.replace(")", "")
+                trig = trig.replace("(", "")
+                if trig.startswith("~"):#check if ref to concept
                     terms = list(self.cons.keys())
-                    if trig[0].strip("~") in terms:
-                        trig = self.cons[trig[0].strip("~")] 
-            if len(resp) ==1:
-                if resp[0].startswith("~"):
+                    if trig.strip("~") in terms:
+                        trig = self.cons[trig.strip("~")] 
+            if rule[1].strip().startswith("["):
+                resp = self.parse_options(rule[1])
+            else:
+                resp = rule[1]
+                if resp.startswith(" "):
+                    resp = resp.lstrip()
+                if resp.startswith("~"): #check if ref to concept
                     terms = list(self.cons.keys())
-                    if resp[0].strip("~") in terms:
-                        resp = self.cons[resp[0].strip("~")] 
+                    if resp.strip("~") in terms:
+                        resp = self.cons[resp.strip("~")]
             uid = cmd.strip("u")
             if uid.isnumeric():
                 return (trig, resp, int(uid))
