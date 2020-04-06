@@ -9,6 +9,7 @@ import nltk
 class Reader:
     def __init__(self):
         self.wd = "./" #working directory where file is located
+        self.cons = {}
         return
     
     def read_in(self, filename):
@@ -63,6 +64,15 @@ class Reader:
             rule = re.split(":", dia[1], 1)
             trig = self.parse_options(rule[0])
             resp = self.parse_options(rule[1])
+            if len(trig) ==1:
+                if trig[0].startswith("~"):
+                    terms = list(self.cons.keys())
+                    if trig[0].strip("~") in terms:
+                        trig = self.cons[trig[0].strip("~")]
+            if len(resp) ==1:
+                if resp[0].startswith("~"):
+                    if resp[0] in self.cons:
+                        resp = cons[resp[0]]
             uid = cmd.strip("u")
             if uid.isnumeric():
                 return (trig, resp, int(uid))
@@ -80,6 +90,7 @@ class Reader:
         elif cmd.startswith("~"): #concept
             concept = cmd.strip("~") #get the concept name
             defs = self.parse_options(dia[1])
+            self.cons[concept] = defs
             return (concept, defs)
     
 
@@ -119,3 +130,4 @@ class Reader:
         
 read = Reader()
 read.parse_lines("test.txt")
+print (read.cons)
