@@ -9,7 +9,7 @@ import nltk
 class Reader:
     def __init__(self):
         self.wd = "./" #working directory where file is located
-        self.cons = {}
+        self.cons = {} #dictionary for concepts
         return
     
     def read_in(self, filename):

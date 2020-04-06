@@ -4,7 +4,7 @@
 #	u1: (no) Thanks anyway
 #lists of pieces of dialog
 ~greetings: [hello howdy "hi there"]
-~reponses: [no "of course" "I don't have a nose"]
+~responses: [no "of course" "I don't have a nose"]
 #if you say boo, robot says BoW ~greetings
 u:(boo) : ~greetings
 #if robot hears any from ~greetings it acknowledges
