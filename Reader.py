@@ -68,11 +68,12 @@ class Reader:
                 if trig[0].startswith("~"):
                     terms = list(self.cons.keys())
                     if trig[0].strip("~") in terms:
-                        trig = self.cons[trig[0].strip("~")]
+                        trig = self.cons[trig[0].strip("~")] 
             if len(resp) ==1:
                 if resp[0].startswith("~"):
-                    if resp[0] in self.cons:
-                        resp = cons[resp[0]]
+                    terms = list(self.cons.keys())
+                    if resp[0].strip("~") in terms:
+                        resp = self.cons[resp[0].strip("~")] 
             uid = cmd.strip("u")
             if uid.isnumeric():
                 return (trig, resp, int(uid))
